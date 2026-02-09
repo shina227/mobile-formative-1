@@ -20,11 +20,11 @@ class _EditAssignmentState extends State<EditAssignment> {
   late TextEditingController _titleController;
   late TextEditingController _courseController;
   late String _selectedPriority;
+  final Color navyBackground = const Color(0xFF1A233A);
 
   @override
   void initState() {
     super.initState();
-    // Pre-filling the data
     _titleController = TextEditingController(text: widget.initialTitle);
     _courseController = TextEditingController(text: widget.initialCourse);
     _selectedPriority = widget.initialPriority;
@@ -33,22 +33,18 @@ class _EditAssignmentState extends State<EditAssignment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: navyBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(130),
         child: Container(
-          color: const Color(0xFF1A233A),
+          color: navyBackground,
           padding: const EdgeInsets.only(left: 10, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextButton.icon(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: 20,
-                ),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
                 label: const Text(
                   "Back",
                   style: TextStyle(color: Colors.white),
@@ -71,6 +67,13 @@ class _EditAssignmentState extends State<EditAssignment> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Divider(
+              color: Colors.white.withValues(alpha: 0.15),
+              thickness: 1,
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
@@ -98,13 +101,15 @@ class _EditAssignmentState extends State<EditAssignment> {
                   ),
                   const SizedBox(height: 30),
 
-                  // --- DANGER ZONE ---
+                  // Danger Zone (Updated for Dark Mode)
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.red.shade50,
+                      color: Colors.redAccent.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.red.shade100),
+                      border: Border.all(
+                        color: Colors.redAccent.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +117,7 @@ class _EditAssignmentState extends State<EditAssignment> {
                         const Text(
                           "Danger Zone",
                           style: TextStyle(
-                            color: Colors.red,
+                            color: Colors.redAccent,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -121,7 +126,7 @@ class _EditAssignmentState extends State<EditAssignment> {
                         Text(
                           "Once you delete this assignment, it cannot be recovered.",
                           style: TextStyle(
-                            color: Colors.red.shade700,
+                            color: Colors.white.withValues(alpha: 0.6),
                             fontSize: 13,
                           ),
                         ),
@@ -129,23 +134,20 @@ class _EditAssignmentState extends State<EditAssignment> {
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton.icon(
-                            onPressed: () {
-                              // Logic for deletion
-                            },
+                            onPressed: () {},
                             icon: const Icon(
                               Icons.delete_outline,
-                              color: Colors.red,
+                              color: Colors.redAccent,
                             ),
                             label: const Text(
                               "Delete Assignment",
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colors.redAccent),
                             ),
                             style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: Colors.red),
+                              side: const BorderSide(color: Colors.redAccent),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              backgroundColor: Colors.white,
                             ),
                           ),
                         ),
@@ -157,7 +159,6 @@ class _EditAssignmentState extends State<EditAssignment> {
             ),
           ),
 
-          // Fixed Bottom Buttons
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -165,16 +166,14 @@ class _EditAssignmentState extends State<EditAssignment> {
                 _buildActionButton(
                   "Save Changes",
                   const Color(0xFFFFC107),
-                  const Color(0xFF1A233A),
-                  () {
-                    Navigator.pop(context);
-                  },
+                  navyBackground,
+                  () => Navigator.pop(context),
                 ),
                 const SizedBox(height: 10),
                 _buildActionButton(
                   "Cancel",
-                  Colors.white,
-                  Colors.grey.shade600,
+                  Colors.transparent,
+                  Colors.white70,
                   () => Navigator.pop(context),
                   hasBorder: true,
                 ),
@@ -186,8 +185,7 @@ class _EditAssignmentState extends State<EditAssignment> {
     );
   }
 
-  // --- UI Helpers (Sharing style with Add screen) ---
-
+  // Reuse Helper Widgets from Add Screen style
   Widget _buildLabel(String text) => Padding(
     padding: const EdgeInsets.only(bottom: 8.0),
     child: Text(
@@ -195,23 +193,24 @@ class _EditAssignmentState extends State<EditAssignment> {
       style: const TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 16,
-        color: Color(0xFF1A233A),
+        color: Colors.white,
       ),
     ),
   );
 
   Widget _buildTextField(TextEditingController controller) => TextField(
     controller: controller,
+    style: const TextStyle(color: Colors.white),
     decoration: InputDecoration(
       filled: true,
-      fillColor: Colors.grey.shade50,
+      fillColor: Colors.white.withValues(alpha: 0.05),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade200),
+        borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade200),
+        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
       ),
     ),
   );
@@ -219,7 +218,7 @@ class _EditAssignmentState extends State<EditAssignment> {
   Widget _buildPriorityBtn(String label) {
     bool isSelected = _selectedPriority == label;
     Color activeColor = (label == "High")
-        ? Colors.red
+        ? Colors.redAccent
         : (label == "Medium" ? Colors.orange : Colors.green);
 
     return Expanded(
@@ -229,16 +228,22 @@ class _EditAssignmentState extends State<EditAssignment> {
           padding: const EdgeInsets.symmetric(vertical: 12),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected ? activeColor : Colors.grey.shade100,
+            color: isSelected
+                ? activeColor
+                : Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: isSelected ? activeColor : Colors.grey.shade300,
+              color: isSelected
+                  ? activeColor
+                  : Colors.white.withValues(alpha: 0.1),
             ),
           ),
           child: Text(
             label,
             style: TextStyle(
-              color: isSelected ? Colors.white : Colors.grey.shade600,
+              color: isSelected
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.4),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -266,7 +271,7 @@ class _EditAssignmentState extends State<EditAssignment> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: hasBorder
-                ? BorderSide(color: Colors.grey.shade300)
+                ? BorderSide(color: Colors.white.withValues(alpha: 0.2))
                 : BorderSide.none,
           ),
         ),

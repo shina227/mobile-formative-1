@@ -14,15 +14,16 @@ class _AddAssignmentState extends State<AddAssignment> {
   final _descController = TextEditingController();
   String _selectedPriority = 'Medium';
 
+  final Color navyBackground = const Color(0xFF1A233A);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      // Tall Navy Header with Back Button
+      backgroundColor: navyBackground, // Changed background
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(130),
         child: Container(
-          color: const Color(0xFF1A233A),
+          color: navyBackground,
           padding: const EdgeInsets.only(left: 10, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,6 +57,14 @@ class _AddAssignmentState extends State<AddAssignment> {
       ),
       body: Column(
         children: [
+          // The Separator
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Divider(
+              color: Colors.white.withValues(alpha: 0.15),
+              thickness: 1,
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
@@ -70,10 +79,7 @@ class _AddAssignmentState extends State<AddAssignment> {
 
                   const SizedBox(height: 20),
                   _buildLabel("Course Name"),
-                  _buildTextField(
-                    _courseController,
-                    "e.g., Mobile Application Development",
-                  ),
+                  _buildTextField(_courseController, "e.g., Mobile App Dev"),
 
                   const SizedBox(height: 20),
                   _buildLabel("Due Date"),
@@ -108,7 +114,6 @@ class _AddAssignmentState extends State<AddAssignment> {
             ),
           ),
 
-          // Fixed Bottom Buttons
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
@@ -116,22 +121,14 @@ class _AddAssignmentState extends State<AddAssignment> {
                 _buildActionButton(
                   "Create Assignment",
                   const Color(0xFFFFC107),
-                  const Color(0xFF1A233A),
-                  () {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Submitted successfully"),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                  },
+                  navyBackground,
+                  () => Navigator.pop(context),
                 ),
                 const SizedBox(height: 10),
                 _buildActionButton(
                   "Cancel",
-                  Colors.white,
-                  Colors.grey.shade600,
+                  Colors.transparent, // Clean look on dark background
+                  Colors.white70,
                   () => Navigator.pop(context),
                   hasBorder: true,
                 ),
@@ -144,8 +141,6 @@ class _AddAssignmentState extends State<AddAssignment> {
     );
   }
 
-  // --- UI Helper Components ---
-
   Widget _buildLabel(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -154,7 +149,7 @@ class _AddAssignmentState extends State<AddAssignment> {
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
-          color: Color(0xFF1A233A),
+          color: Colors.white,
         ),
       ),
     );
@@ -169,25 +164,22 @@ class _AddAssignmentState extends State<AddAssignment> {
     return TextField(
       controller: controller,
       maxLines: maxLines,
+      style: const TextStyle(color: Colors.white), // User input text
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey.shade400),
+        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.3)),
         suffixIcon: suffixIcon != null
-            ? Icon(suffixIcon, color: Colors.grey)
+            ? Icon(suffixIcon, color: Colors.white70)
             : null,
         filled: true,
-        fillColor: Colors.grey.shade50,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 15,
-        ),
+        fillColor: Colors.white.withValues(alpha: 0.05), // Subtle dark input
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
       ),
     );
@@ -202,20 +194,18 @@ class _AddAssignmentState extends State<AddAssignment> {
           padding: const EdgeInsets.symmetric(vertical: 12),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFFFFC107) : Colors.grey.shade100,
+            color: isSelected
+                ? const Color(0xFFFFC107)
+                : Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: isSelected
-                  ? const Color(0xFFFFC107)
-                  : Colors.grey.shade300,
+              color: isSelected ? const Color(0xFFFFC107) : Colors.white12,
             ),
           ),
           child: Text(
             label,
             style: TextStyle(
-              color: isSelected
-                  ? const Color(0xFF1A233A)
-                  : Colors.grey.shade600,
+              color: isSelected ? navyBackground : Colors.white70,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -243,7 +233,7 @@ class _AddAssignmentState extends State<AddAssignment> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: hasBorder
-                ? BorderSide(color: Colors.grey.shade300)
+                ? BorderSide(color: Colors.white.withValues(alpha: 0.2))
                 : BorderSide.none,
           ),
         ),
