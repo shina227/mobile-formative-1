@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import "add_assignment.dart";
+import "edit_assignment.dart";
 
 class AssignmentsScreen extends StatefulWidget {
   const AssignmentsScreen({super.key});
@@ -109,7 +111,12 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
               width: double.infinity,
               height: 60,
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddAssignment()),
+                  );
+                },
                 icon: const Icon(Icons.add, color: Color(0xFF1A233A)),
                 label: const Text(
                   "Add New Assignment",
@@ -217,7 +224,21 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
             ),
           ),
           // Actions
-          const Icon(Icons.edit_outlined, color: Colors.grey),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EditAssignment(
+                    initialTitle: "Introduction to Leadership Essay",
+                    initialCourse: "ALU 101",
+                    initialPriority: "High",
+                  ),
+                ),
+              );
+            },
+            child: const Icon(Icons.edit_outlined, color: Colors.grey),
+          ),
           const SizedBox(width: 10),
           const Icon(Icons.delete_outline, color: Colors.grey),
         ],

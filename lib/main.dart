@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_academic_platform/screens/assignments/assignments.dart';
-import 'package:student_academic_platform/screens/assignments/add_assignment.dart';
-import 'package:student_academic_platform/screens/assignments/edit_assignment.dart';
 
 void main() {
   runApp(const MyApp());
