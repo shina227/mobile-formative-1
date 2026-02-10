@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "student_academic_platform",
     "short_name": "student_academic_platform",
+=======
+    "name": "flutter_application_1",
+    "short_name": "flutter_application_1",
+>>>>>>> 3a9ec57fa4ad61933d86eb94e347d392427db078
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
