@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   // Validation error messages
   String _emailError = '';
@@ -97,17 +99,26 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
-    // Show success message - placeholder for now
+    // Save user credentials
+    _authService.saveUser(
+      _emailController.text.trim(),
+      _passwordController.text,
+    );
+
+    // Show success message and navigate to login
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Success'),
         content: const Text(
-          'Account created successfully!\n\nThis is a placeholder. You can link this to your dashboard later.',
+          'Account created successfully!\n\nPlease log in with your credentials.',
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/login');
+            },
             child: const Text('OK'),
           ),
         ],
