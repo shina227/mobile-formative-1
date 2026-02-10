@@ -83,6 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
+// This widget represents the content of the Dashboard tab
 class DashboardContent extends StatelessWidget {
   const DashboardContent({super.key});
 
