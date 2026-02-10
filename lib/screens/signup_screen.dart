@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -49,13 +49,16 @@ class _SignupScreenState extends State<SignupScreen> {
     List<String> missing = [];
 
     if (password.length < 8) missing.add('at least 8 characters');
-    if (!password.contains(RegExp(r'[A-Z]')))
+    if (!password.contains(RegExp(r'[A-Z]'))) {
       missing.add('one uppercase letter');
-    if (!password.contains(RegExp(r'[a-z]')))
+    }
+    if (!password.contains(RegExp(r'[a-z]'))) {
       missing.add('one lowercase letter');
+    }
     if (!password.contains(RegExp(r'[0-9]'))) missing.add('one number');
-    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')))
+    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       missing.add('one special character');
+    }
 
     if (missing.isEmpty) return 'Strong password ✓';
 
