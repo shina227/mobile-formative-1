@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'screens/signup_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/dashboard_screen.dart';
+import 'screens/attendance_tracking_screen.dart';
 
 void main() {
   runApp(const ALUStudentApp());
 }
 
 class ALUStudentApp extends StatelessWidget {
-  const ALUStudentApp({super.key});
+  const ALUStudentApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,7 @@ class ALUStudentApp extends StatelessWidget {
         fontFamily: 'Roboto',
       ),
       home: const SignupScreen(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/dashboard': (context) => const DashboardScreen(),
-      },
+      routes: {'/login': (context) => const LoginScreen()},
       debugShowCheckedModeBanner: false,
     );
   }
