@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/signup_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/attendance_tracking_screen.dart';
 
 void main() {
   runApp(const ALUStudentApp());
