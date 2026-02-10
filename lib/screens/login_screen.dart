@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   String _emailError = '';
   String _passwordError = '';
@@ -18,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return email.contains('@') && email.contains('.') && email.length > 5;
   }
 
-  void _handleLogin() {
+  void _handleLogin() async {
     setState(() {
       _emailError = '';
       _passwordError = '';
@@ -45,22 +47,27 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    // Show success message - placeholder for now
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content: const Text(
-          'Login successful!\n\nThis is a placeholder. You can link this to your dashboard later.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+    // Verify credentials
+    bool isValidUser = await _authService.verifyUser(
+      _emailController.text.trim(),
+      _passwordController.text,
     );
+
+    if (!isValidUser) {
+      setState(() {
+        _passwordError = 'Invalid email or password';
+      });
+      return;
+    }
+
+    // Login successful - navigate to dashboard
+    if (mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/dashboard',
+        (route) => false,
+      );
+    }
   }
 
   @override
